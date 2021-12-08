@@ -20,4 +20,12 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'draw.js'
   },
+  devServer: {
+    port: 9000,
+    static: {
+      directory: path.resolve(__dirname, 'dist')
+    },
+    compress: true,
+  },
+  mode: 'development'
 };
