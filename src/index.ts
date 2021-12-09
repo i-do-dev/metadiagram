@@ -1,27 +1,71 @@
-import Two from 'two.js';;
+import Two from 'two.js';
+
+export interface TwoWindow extends Window {
+    Two: Object;
+}
+
+declare let window: TwoWindow;
+window.Two = Two;
+require('two.js/extras/js/zui') ;
 
 const init = () => {
-    console.log("two ==000== ", Two);
-
     var params = {fullscreen: true};
     var elem = document.body;
     var two = new Two(params).appendTo(elem);
     
-    // Two.js has convenient methods to make shapes and insert them into the scene.
-    var radius = 50;
-    var x = two.width * 0.5;
-    var y = two.height * 0.5 - radius;
-    //var y = two.height * 0.5 - radius * 1.25;
-    var circle = two.makeCircle(x, y, radius);
+    var xCoord = two.width * 0.5;
+    var yCoord = two.height * 0.5;
+    var stage = new Two.Group();
+    var size = 120;
+    var shape = two.makeRoundedRectangle(xCoord, yCoord, size, size);
+    shape.noStroke().fill = '#ccc';
+    stage.add(shape);
     
-    // The object returned has many stylable properties:
-    circle.fill = '#FF8000';
-    // And accepts all valid CSS color:
-    circle.stroke = 'blue';
-    circle.linewidth = 5;
+    shape.fill = 'red';
+    shape.position.set(two.width / 2, two.height / 2);
+    two.add(stage);
 
-    two.update();
+    var rect = shape.getBoundingClientRect();
+
+    var domElement = two.renderer.domElement;
+    var zui = new Two.ZUI(stage);
+    var mouse = new Two.Vector();
+    var touches = {};
+    var distance = 0;
+    var dragging = false;
+
+    zui.addLimits(0.1, 8);
     
+    domElement.addEventListener('mousedown', mousedown, false);
+    function mousedown(e: MouseEvent): void {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+        let rect = shape.getBoundingClientRect();
+        dragging = mouse.x > rect.left && mouse.x < rect.right
+        && mouse.y > rect.top && mouse.y < rect.bottom;
+        window.addEventListener('mousemove', mousemove, false);
+        window.addEventListener('mouseup', mouseup, false);
+    }
+
+    function mousemove(e: MouseEvent): void {
+        let dx = e.clientX - mouse.x, dy = e.clientY - mouse.y;
+        if (dragging) {
+            shape.position.x += dx / zui.scale;
+            shape.position.y += dy / zui.scale
+        } else {
+            zui.translateSurface(dx, dy);
+        }
+
+        mouse.set(e.clientX, e.clientY);
+    }
+
+    function mouseup(e: MouseEvent) {
+        window.removeEventListener('mousemove', mousemove, false);
+        window.removeEventListener('mouseup', mouseup, false);
+    }
+    
+    two.play();
+    // two.update();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
