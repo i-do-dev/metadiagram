@@ -1,4 +1,6 @@
 import Two from 'two.js';
+import Rectangle from './components/rectangle';
+import Surface from './components/surface';
 
 export interface TwoWindow extends Window {
     Two: Object;
@@ -13,22 +15,31 @@ const init = () => {
     var elem = document.body;
     var two = new Two(params).appendTo(elem);
     
-    var xCoord = two.width * 0.5;
-    var yCoord = two.height * 0.5;
-    var stage = new Two.Group();
-    var size = 120;
-    var shape = two.makeRoundedRectangle(xCoord, yCoord, size, size);
-    shape.noStroke().fill = '#ccc';
-    stage.add(shape);
+    var group = new Two.Group();
+    var size = 100;
+    let rectangleParams = {two, size: 100, skin: {
+        color: 'brown'
+    }};
+    var rectangle = Rectangle.create(rectangleParams);
+    var shape = rectangle.shape;
+    //var shape = two.makeRoundedRectangle(0, 0, size, size);
     
-    shape.fill = 'red';
-    shape.position.set(two.width / 2, two.height / 2);
-    two.add(stage);
+    
+    //shape.noStroke().fill = '#ccc';
+    group.add(shape);
+    
+    //shape.fill = 'red';
+    //shape.position.set(two.width / 2, two.height / 2);
+    two.add(group);
 
-    var rect = shape.getBoundingClientRect();
+    //var rect = shape.getBoundingClientRect();
 
     var domElement = two.renderer.domElement;
-    var zui = new Two.ZUI(stage);
+    Surface.create(domElement, shape, group);
+    
+    /* 
+    var zui = new Two.ZUI(group);
+    
     var mouse = new Two.Vector();
     var touches = {};
     var distance = 0;
@@ -51,7 +62,7 @@ const init = () => {
         let dx = e.clientX - mouse.x, dy = e.clientY - mouse.y;
         if (dragging) {
             shape.position.x += dx / zui.scale;
-            shape.position.y += dy / zui.scale
+            shape.position.y += dy / zui.scale;
         } else {
             zui.translateSurface(dx, dy);
         }
@@ -63,6 +74,7 @@ const init = () => {
         window.removeEventListener('mousemove', mousemove, false);
         window.removeEventListener('mouseup', mouseup, false);
     }
+    */
     
     two.play();
     // two.update();
