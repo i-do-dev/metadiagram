@@ -22,6 +22,7 @@ export default class Surface {
         
     }
 
+
     public get el(): any { return this._el; }
     public get shape(): any { return this._shape; }
 
@@ -33,7 +34,7 @@ export default class Surface {
 
     
     
-    public mousedown(e: MouseEvent): void {
+    private mousedown(e: MouseEvent): void {
         let self = this;
         this.mouse.x = e.clientX;
         this.mouse.y = e.clientY;
@@ -47,7 +48,7 @@ export default class Surface {
         window.addEventListener('mouseup', this._mouseUpHandler, false);
     }
 
-    public mousemove(e: MouseEvent): void {
+    private mousemove(e: MouseEvent): void {
         let dx = e.clientX - this.mouse.x, dy = e.clientY - this.mouse.y;
         if (this.dragging) {
             this.shape.position.x += dx / this._zui.scale;
@@ -59,7 +60,7 @@ export default class Surface {
         this.mouse.set(e.clientX, e.clientY);
     }
 
-    public mouseup(e: MouseEvent) {
+    private mouseup(e: MouseEvent) {
         let self = this;
         window.removeEventListener('mousemove', self._mouseMoveHandler , false);
         window.removeEventListener('mouseup',  self._mouseUpHandler , false);
