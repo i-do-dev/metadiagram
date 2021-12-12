@@ -1,4 +1,3 @@
-import Two from 'two.js';
 import {IVector} from '../interface';
 
 export default abstract class Shape {

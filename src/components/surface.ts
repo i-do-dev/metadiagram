@@ -1,5 +1,4 @@
 import Two from 'two.js';
-import shape from './shape';
 
 export default class Surface {
     private _el: any;
@@ -35,8 +34,6 @@ export default class Surface {
         let self = this;
         this._group.children.forEach((child: any) => {
             child.renderer.elem.addEventListener('mousedown', (e: MouseEvent) => {
-                console.log('I AM CLICKED === ', e.target);
-                console.log('I AM EL === ', child);
                 self.focusedShape = child;
             }, false);
         });
