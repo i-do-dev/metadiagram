@@ -1,6 +1,8 @@
 import Two from 'two.js';
 import Rectangle from './components/rectangle';
+import Circle from './components/circle';
 import Surface from './components/surface';
+import rectangle from './components/rectangle';
 
 export interface TwoWindow extends Window {
     Two: Object;
@@ -32,7 +34,7 @@ const init = () => {
     let rectangleParams1 = {two, size: 100, skin: {
         color: 'green'
     }};
-    var rectangle1 = Rectangle.create(rectangleParams1);
+    var rectangle1 = Circle.create(rectangleParams1);
     var shape1 = rectangle1.shape;
     surface.addShape(shape1);
     
