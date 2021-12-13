@@ -8,8 +8,8 @@ export default abstract class Shape {
     constructor(shape: any = null, params: any) {
         this.shape = shape;
         this.skin = params.skin;
-        let x = 100;
-        let y = 100;
+        let x = params.position.x;
+        let y = params.position.y;
         this.position = {x, y};
     }
     

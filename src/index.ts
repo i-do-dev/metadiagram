@@ -2,7 +2,6 @@ import Two from 'two.js';
 import Rectangle from './components/rectangle';
 import Circle from './components/circle';
 import Surface from './components/surface';
-import rectangle from './components/rectangle';
 
 export interface TwoWindow extends Window {
     Two: Object;
@@ -25,7 +24,7 @@ const init = () => {
     // Make shape 1
     let rectangleParams = {two, size: 100, skin: {
         color: 'brown'
-    }};
+    }, position: {x: 100, y: 200 }};
     var rectangle = Rectangle.create(rectangleParams);
     var shape = rectangle.shape;
     surface.addShape(shape);
@@ -33,7 +32,7 @@ const init = () => {
     // Make shape 2
     let rectangleParams1 = {two, size: 100, skin: {
         color: 'green'
-    }};
+    }, position: {x: 100, y: 400 }};
     var rectangle1 = Circle.create(rectangleParams1);
     var shape1 = rectangle1.shape;
     surface.addShape(shape1);
@@ -56,6 +55,9 @@ const init = () => {
         }
         
     });
+
+
+    
 }
 
 document.addEventListener('DOMContentLoaded', () => {
